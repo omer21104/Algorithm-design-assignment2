@@ -29,7 +29,6 @@ public class Game {
 			while (!shouldStop) {
 				showList();
 				shouldStop = turn();
-				System.out.println("l: " + l + " r: " + r);
 				System.out.println("---------------");
 			}
 			checkWinner();
@@ -60,7 +59,7 @@ public class Game {
 		// player's turn
 		if (l >= r) {
 			// last item
-			System.out.printf("Last item %d chosen automatically", list[l]);
+			System.out.printf("Last item %d chosen automatically\n", list[l]);
 			playerSum += list[l];
 			return true;
 		}
@@ -82,12 +81,13 @@ public class Game {
 		else
 			playerSum += list[l++]; // add to playerSum and increment l
 		
+		System.out.println("---------------");
 		// show list between turns
 		showList();
 		
 		// computer's turn
 		int compChoice = bestMoves[l][r];
-		System.out.printf("Computer chooses: %d\n" , compChoice);
+		System.out.printf("Computer chooses: %s\n" , compChoice == l ? "l" : "r");
 		
 		computerSum += list[compChoice]; // add to computer sum
 		
@@ -97,46 +97,6 @@ public class Game {
 			r--;
 		
 		return false;
-	}
-	
-	public static void compTurn() {
-		// method to compute the computer's turn
-			
-		int choice = bestMoves[l][r];
-		System.out.printf("Computer chooses: %d\n" , choice);
-		
-		computerSum += list[choice]; // add to computer sum
-		
-		if (choice == l)
-			l++;
-		else
-			r--;
-	}
-	
-	public static void playerTurn() {
-		if (l >= r) {
-			// last item
-			System.out.printf("Last item %d chosen automatically", list[l]);
-			playerSum += list[l];
-			return;
-		}
-		System.out.printf("Your options are %d (type 'l') or %d (type 'r')", list[l], list[r]);
-		System.out.printf("\nBest choice is: %s \n", bestMoves[l][r] == l ? "l" : "r"); // pull best move from table
-		System.out.print("You choose: ");
-		boolean success = false;
-		char choice = ' ';
-		while (!success) {
-			try {
-				choice = input.next().toLowerCase().charAt(0);
-				success = true;
-			} catch (InputMismatchException e) {
-				System.out.println("Please enter 'l' for left or 'r' for right");
-			}
-		}
-		if (choice == 'r')
-			playerSum += list[r--]; // add to playerSum and decrement r
-		else
-			playerSum += list[l++]; // add to playerSum and increment l
 	}
 	
 	public static void calculateBestMoves() {
